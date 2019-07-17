@@ -2,13 +2,13 @@ body {
 	font-family: "Montserrat";
 }
 
-#title {
+.top-header {
 	background: #ff4c68;
 	color: #fff;
 }
 
 .title-image {
-	margin-left: 4rem;	
+	margin-left: 4rem;
 	width: 60%;
 	transform: rotate(25deg);
 }
@@ -17,8 +17,9 @@ body {
 	padding: 3% 15%;
 }
 
-h1 {	
+h1 {
 	font-size: 3.5rem;
+	font-weight: 900;
 	line-height: 1.5;
 }
 
@@ -39,10 +40,36 @@ h1 {
 
 .nav-link {
 	font-size: 1.2rem;
-	font-family: "Montserrat";
 }
 
 /* Download Buttons */
 .download-button {
 	margin: 5% 3% 5% 0;
+}
+
+.features-section {
+	margin: 4.5rem 0 0 0;
+	text-align: center;
+}
+
+.ftr-item {
+	padding-bottom: 5rem;
+}
+
+.fa-icon {
+	margin-bottom: 1rem;
+	color: #ef8172;
+}
+
+.fa-icon:hover {
+	color: #ff4c68;
+}
+
+h3 {
+	font-weight: 700;
+}
+
+.ftr-item p {
+	font-weight: 500;
+	color: #8f8f8f;
 }
