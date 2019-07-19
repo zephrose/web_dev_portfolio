@@ -23,6 +23,15 @@ h1 {
 	line-height: 1.5;
 }
 
+h2 {
+	font-size: 3rem;
+	font-weight: 700;
+}
+
+h3 {
+	font-weight: 700;
+}
+
 /*Nav Bar*/
 .navbar {
 	padding: 0 0 4.5rem;
@@ -47,13 +56,15 @@ h1 {
 	margin: 5% 3% 5% 0;
 }
 
+/*Features Section*/
+
 .features-section {
-	margin: 4.5rem 0 0 0;
+	margin: 4rem 0 0 0;
 	text-align: center;
 }
 
 .ftr-item {
-	padding-bottom: 5rem;
+	padding-bottom: 1.5rem;
 }
 
 .fa-icon {
@@ -65,11 +76,38 @@ h1 {
 	color: #ff4c68;
 }
 
-h3 {
-	font-weight: 700;
-}
-
 .ftr-item p {
 	font-weight: 500;
 	color: #8f8f8f;
+}
+
+/*Testimonials Section*/
+
+.testimonials-section {	
+	text-align: center;
+	background-color: #ef8172;
+	color: #fff;
+}
+
+.testimonial-image {
+	width: 10%;
+	border-radius: 100%;
+	margin: 20px;
+}
+
+.carousel-item {
+	padding: 5% 20%;
+}
+
+/*Press Section*/
+
+.press-section {
+	background-color: #ef8172;
+	text-align: center;
+	padding-bottom: 3%;
+}
+
+.press-logo {
+	width: 15%;
+	margin: 20px 20px 15px;
 }
