@@ -2,21 +2,6 @@ body {
 	font-family: "Montserrat";
 }
 
-.top-header {
-	background: #ff4c68;
-	color: #fff;
-}
-
-.title-image {
-	margin-left: 4rem;
-	width: 60%;
-	transform: rotate(25deg);
-}
-
-.container-fluid {
-	padding: 3% 15%;
-}
-
 h1 {
 	font-size: 3.5rem;
 	font-weight: 900;
@@ -30,6 +15,23 @@ h2 {
 
 h3 {
 	font-weight: 700;
+}
+
+.top-header {
+	background: #ff4c68;
+	color: #fff;
+}
+
+.title-image {
+	padding-left: 4rem;
+	width: 75%;
+	transform: rotate(25deg);
+	position: relative;
+	top: 35%;
+}
+
+.container-fluid {
+	padding: 3% 15%;
 }
 
 /*Nav Bar*/
@@ -59,12 +61,15 @@ h3 {
 /*Features Section*/
 
 .features-section {
-	margin: 4rem 0 0 0;
 	text-align: center;
+	background: #fff;
+	position: relative;
+	z-index: 1;
 }
 
-.ftr-item {
-	padding-bottom: 1.5rem;
+.ftr-item {	
+	padding: 4.5rem;
+	/*padding-bottom: 1rem;*/
 }
 
 .fa-icon {
@@ -110,4 +115,15 @@ h3 {
 .press-logo {
 	width: 15%;
 	margin: 20px 20px 15px;
+}
+
+/*Pricing Section*/
+
+.pricing-section {
+	font-weight: 700;
+	text-align: center;
+}
+
+.pricing-col {
+	padding: 3% 2%;
 }
