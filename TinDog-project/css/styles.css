@@ -30,6 +30,19 @@ h3 {
 	top: 35%;
 }
 
+@media (max-width: 1028px) {
+
+	.top-header {
+		text-align: center;
+	}
+
+	.title-image {
+		padding-left: 0;
+		position: static;
+		transform: rotate(0);
+	}
+}
+
 .container-fluid {
 	padding: 3% 15%;
 }
