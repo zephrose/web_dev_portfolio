@@ -1,0 +1,74 @@
+body {
+	font-family: 'Permanent Marker', cursive;
+	text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-size: 3rem;
+	font-weight: 700;
+}
+
+
+.top-header, .navigation, .feature, .footer, .jumbotron {
+	background: #636363;
+	color: #fff;
+}
+
+.jumbotron {	
+	padding-top: 2rem;
+	padding-bottom: 0;
+	margin: 0;
+}
+
+.container-fluid {
+	padding-bottom: 1%;
+}
+
+/*Nav Bar*/
+.nav {
+	padding: 0 0 1.5rem;
+}
+
+.nav-item {
+	padding: 18px 18px;
+}
+
+.nav-link {
+	font-size: 1.2rem;
+	color: rgba(255,255,255,.5);
+}
+
+/*@media (max-width: 990px) {
+
+	.top-header {
+		text-align: center;
+	}
+
+	.title-image {
+		padding-left: 0;
+		position: static;
+		transform: rotate(0);
+	}
+}*/
+
+/*Features Section*/
+
+.features-section {
+	background: #fff;
+}
+
+/*Carousel Section*/
+
+.carousel-item {
+	padding: 1% 20%;
+}
+
+/* Footer */
+.social-icon {
+	padding: 2% 1%;
+}
+
+.copyright {
+	font-weight: bold;
+	color: #8f8f8f;
+}
