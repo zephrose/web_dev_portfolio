@@ -8,47 +8,42 @@ var snare_drum = new Audio("sounds/snare.mp3");
 var crash_drum = new Audio("sounds/crash.mp3");
 var kick_drum = new Audio("sounds/kick-bass.mp3");
 
-// Set Handle
+// Set Handles
+document.addEventListener("keydown", handleKeyboard);
+
 for (var i = 0; i < drumsBtn.length; i++) {
 	drumsBtn[i].addEventListener("click", handleClick);
 }
 
 function handleClick() {
+	playDrumKit(this.innerHTML);
+}
 
-	// switch (this.innerHTML) {
-	// 	case 'w':
-	// 		tom_1_drum.play();
-	// 	break;
-	// 	case 'a':
-	// 		tom_2_drum.play();
-	// 	break;
-	// 	case 's':
-	// 		tom_3_drum.play();
-	// 	break;
-	// 	case 'd':
-	// 		tom_4_drum.play();
-	// 	break;
-	// 	case 'j':
-	// 		snare_drum.play();
-	// 	break;
-	// 	case 'k':
-	// 		crash_drum.play();
-	// 	break;
-	// 	case 'l':
-	// 		kick_drum.play();
-	// 	break;
-	//
-	// 	default : console.log(this.innerHTML); break;
-	//
-	// }
+function handleKeyboard(prs_key) {
+	playDrumKit(prs_key.key);
+}
 
-	if (this.innerHTML == 'w'){ tom_1_drum.play(); }
-	if (this.innerHTML == 'a'){ tom_2_drum.play(); }
-	if (this.innerHTML == 's'){ tom_3_drum.play(); }
-	if (this.innerHTML == 'd'){ tom_4_drum.play(); }
-	if (this.innerHTML == 'j'){ snare_drum.play(); }
-	if (this.innerHTML == 'k'){ crash_drum.play(); }
-	if (this.innerHTML == 'l'){ kick_drum.play(); }
+// Make the instruments play
+function playDrumKit(event) {
 
+	if (event == 'w'){ tom_1_drum.play(); whichDrum(event);}
+	if (event == 'a'){ tom_2_drum.play(); whichDrum(event);}
+	if (event == 's'){ tom_3_drum.play(); whichDrum(event);}
+	if (event == 'd'){ tom_4_drum.play(); whichDrum(event);}
+	if (event == 'j'){ snare_drum.play(); whichDrum(event);}
+	if (event == 'k'){ crash_drum.play(); whichDrum(event);}
+	if (event == 'l'){ kick_drum.play(); whichDrum(event);}
+
+}
+
+function whichDrum(event) {
+	
+	var playing_instrument = document.querySelector("." + event)
+	
+	playing_instrument.classList.add("pressed");
+	
+	setTimeout(function(){
+		playing_instrument.classList.remove("pressed");
+	}, 100); // .1 second
 
 }
