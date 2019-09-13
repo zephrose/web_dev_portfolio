@@ -8,17 +8,14 @@ var battle_msg = ["Follow ME!",
 
 var you_lost_msg = ["Take Off The Blindfold!",
 				  	"Simon Didn't Say...",
-				  	"Want To Play Again?",];				  
+				  	"Want To Play Again?",];
 
 var button_colors = ["red","blue","green","yellow"];
 var game_pattern = [];
-var audio_pattern = [];
 var user_pattern = [];
-var index = 0;
+var level = 0;
+var user_sequence = 0;
 var randNum = 0;
-var chosen_color = "";
-
-var runGame = 1;
 
 var blue_snd = new Audio("sounds/blue.mp3");
 var green_snd = new Audio("sounds/green.mp3");
@@ -32,77 +29,77 @@ $("h1").on("click", startGame);
 // Button Clicks
 $(".btn").on("click", function (event) {
 	var event_id = event.target.id;
-	
+
 	user_pattern.push(event_id);
 
-	playButtonSound(event_id);
+	playButtonSequence(event_id);
 
-	playButtonPress(event_id);
-
-	console.log(user_pattern);
+	checkAnswer(level);
+	//nextSequence();
 });
 
-
-function simonSays () {
-	console.log("Starting new Game");
-	
-	// Get our first Button
-	nextSequence();
-
-
-	
-
-}
-
 function startGame () {
-	//game_pattern = [];
-	// audio_pattern = [];
+	// Reset our Game
+	game_pattern = [];
 	user_pattern = [];
-	chosen_color = "";
+	level = 0;
 
+	// New Battle Msg
 	$("h1").text(battle_msg[Math.floor((Math.random()*3))]);
 	$("#sub-text span").text("Click Title To Reset Game");
 
-	simonSays();
+	nextSequence();
 }
 
 function nextSequence () {
+	level++;
+	$("#level span").text("Level : " + level);
+
 	randNum = Math.floor((Math.random()*4));
-	addColorSoundSequence(button_colors[randNum]);
-	playSequence();
+	btnColor = button_colors[randNum];
+	game_pattern.push(btnColor);
+
+	setTimeout(function(){
+		playButtonSequence(game_pattern[level-1]);
+	}, 1200); // 1.2sec delay
 }
 
-function addColorSoundSequence (color) {
-	game_pattern.push(color);
-	if (color == 'blue'){ audio_pattern.push(blue_snd);}
-	if (color == 'green'){ audio_pattern.push(green_snd);}
-	if (color == 'red'){ audio_pattern.push(red_snd);}
-	if (color == 'yellow'){ audio_pattern.push(yellow_snd);}
-	console.log(audio_pattern);
-	console.log(game_pattern);
+function  checkAnswer (currentLevel) {
+	// Dont do check against the player if not started
+	if (game_pattern === undefined || game_pattern.length == 0) {return;}
+	if (user_pattern === undefined || user_pattern.length == 0) {return;}
+
+	// // Check for correctness
+	// if (user_sequence != currentLevel) {
+	// 	if (game_pattern[user_sequence] != user_pattern[user_sequence]) {
+	// 		gameOver();
+	// 	}
+	// 	user_sequence++;
+	// } else if (user_sequence == currentLevel) {
+	//
+	// }
+
+	if (game_pattern[currentLevel-1] === user_pattern[currentLevel-1]) {
+		nextSequence();
+	} else {
+		gameOver();
+	}
 }
 
-function playSequence () {
-	index = 0;
-	playSoundInSequence(audio_pattern[index]);
-}
-
-function endGame () {
+function gameOver () {
 	wrong_snd.play()
 	$("h1").text(you_lost_msg[Math.floor((Math.random()*3))]);
 	$("#sub-text span").text("Click Title To Start Game");
+
+	$("body").addClass("game-over");
+	setTimeout(function(){
+		$("body").removeClass("game-over");
+	}, 100); // .1 second
 }
 
-function playSoundInSequence (audio) {
-
-	if (!audio || !(audio instanceof Audio)) return;
-
-	audio.addEventListener('ended', function() {
-	  index++;
-	  playSoundInSequence(audio_pattern[index]);
-	})
-	audio.play();
-
+function playButtonSequence (color) {
+	playButtonSound(color);
+	playButtonPress(color);
 }
 
 function playButtonSound (color) {
@@ -114,7 +111,7 @@ function playButtonSound (color) {
 
 function playButtonPress (color) {
 	$("#" + color).addClass("pressed");
-	
+
 	setTimeout(function(){
 		$("#" + color).removeClass("pressed");
 	}, 100); // .1 second
