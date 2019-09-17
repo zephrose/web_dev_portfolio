@@ -1,27 +1,28 @@
-// Debug
-//$("h1").on("mouseover", nextSequence);
-
-// Var
+// Battle Messages
 var battle_msg = ["Follow ME!",
 				  "Simon Says...",
 				  "Are we going to Play?",];
 
+// Simon Insults
 var you_lost_msg = ["Take Off The Blindfold!",
 				  	"Simon Didn't Say...",
 				  	"Want To Play Again?",];
 
-var button_colors = ["red","blue","green","yellow"];
-var game_pattern = [];
-var user_pattern = [];
-var level = 0;
-var user_sequence = 0;
-var randNum = 0;
+// Button Sounds
+var blue = new Audio("sounds/blue.mp3");
+var green = new Audio("sounds/green.mp3");
+var red = new Audio("sounds/red.mp3");
+var yellow = new Audio("sounds/yellow.mp3");
+var wrong = new Audio("sounds/wrong.mp3");
 
-var blue_snd = new Audio("sounds/blue.mp3");
-var green_snd = new Audio("sounds/green.mp3");
-var red_snd = new Audio("sounds/red.mp3");
-var yellow_snd = new Audio("sounds/yellow.mp3");
-var wrong_snd = new Audio("sounds/wrong.mp3");
+// Game object
+var game = {
+	count : 0,
+	button_colors : ["red","blue","green","yellow"],
+	game_pattern : [],
+	user_pattern : [],
+	strict: false,
+}
 
 // Start Game on Title Click
 $("h1").on("click", startGame);
@@ -30,89 +31,124 @@ $("h1").on("click", startGame);
 $(".btn").on("click", function (event) {
 	var event_id = event.target.id;
 
-	user_pattern.push(event_id);
+	addToPlayer(event_id);
 
-	playButtonSequence(event_id);
+	//playGame(event_id);
 
-	checkAnswer(level);
+	//checkAnswer(level);
 	//nextSequence();
 });
 
 function startGame () {
+	clearGame();
+}
+
+function clearGame () {
 	// Reset our Game
 	game_pattern = [];
-	user_pattern = [];
 	level = 0;
 
 	// New Battle Msg
 	$("h1").text(battle_msg[Math.floor((Math.random()*3))]);
 	$("#sub-text span").text("Click Title To Reset Game");
 
-	nextSequence();
+	// Start the next move
+	nextMove();
 }
 
-function nextSequence () {
-	level++;
-	$("#level span").text("Level : " + level);
+function nextMove () {
+	// Update our level count
+	game.count++;
+	$("#level span").text("Level : " + game.count);
 
-	randNum = Math.floor((Math.random()*4));
-	btnColor = button_colors[randNum];
-	game_pattern.push(btnColor);
-
-	setTimeout(function(){
-		playButtonSequence(game_pattern[level-1]);
-	}, 1200); // 1.2sec delay
+	// Gen Next Move
+	generateMove();	
 }
 
-function  checkAnswer (currentLevel) {
-	// Dont do check against the player if not started
-	if (game_pattern === undefined || game_pattern.length == 0) {return;}
-	if (user_pattern === undefined || user_pattern.length == 0) {return;}
+function generateMove () {
+	game.game_pattern.push(game.button_colors[Math.floor((Math.random()*4))]);
+	showMoves();
+	console.log(game.game_pattern);
+}
 
-	// // Check for correctness
-	// if (user_sequence != currentLevel) {
-	// 	if (game_pattern[user_sequence] != user_pattern[user_sequence]) {
-	// 		gameOver();
-	// 	}
-	// 	user_sequence++;
-	// } else if (user_sequence == currentLevel) {
-	//
-	// }
+function showMoves() {
+	var i = 0;
+	var moves = setInterval(function () {
+		playGame(game.game_pattern[i]);
+		i++;
+		if (i >= game.game_pattern.length) {
+			clearInterval(moves);
+		}
+	}, 600);
 
-	if (game_pattern[currentLevel-1] === user_pattern[currentLevel-1]) {
-		nextSequence();
+	clearPlayer();
+}
+
+function clearPlayer () {
+	game.user_pattern = [];
+}
+
+function addToPlayer (color) {
+	game.user_pattern.push(color);
+	console.log(game.user_pattern);
+	playTurn(color);
+}
+
+function playTurn (currentLevel) {
+	if (game.user_pattern[game.user_pattern.length - 1] !== 
+		game.game_pattern[game.game_pattern.length - 1]) {
+		if (game.strict) {
+			gameOver();
+		} else {
+			tryAgain();
+		}
 	} else {
-		gameOver();
+		playGame(currentLevel);
+		var check = game.user_pattern.length === game.game_pattern.length;
+		if (check) {
+			nextMove();
+		}
 	}
 }
 
 function gameOver () {
-	wrong_snd.play()
+	wrong.play();
 	$("h1").text(you_lost_msg[Math.floor((Math.random()*3))]);
 	$("#sub-text span").text("Click Title To Start Game");
 
 	$("body").addClass("game-over");
+
 	setTimeout(function(){
 		$("body").removeClass("game-over");
 	}, 100); // .1 second
+
+	startGame();
 }
 
-function playButtonSequence (color) {
-	playButtonSound(color);
-	playButtonPress(color);
+function tryAgain () {
+	wrong.play();
+	$("h1").text(you_lost_msg[Math.floor((Math.random()*3))]);
+
+	showMoves();
+
+	setTimeout(function() {
+		$("h1").text(battle_msg[Math.floor((Math.random()*3))]);
+	}, 1000); 
 }
 
-function playButtonSound (color) {
-	if (color == 'blue'){ blue_snd.play()}
-	if (color == 'green'){ green_snd.play()}
-	if (color == 'red'){ red_snd.play()}
-	if (color == 'yellow'){ yellow_snd.play()}
-}
-
-function playButtonPress (color) {
+function playGame (color) {
 	$("#" + color).addClass("pressed");
-
+	playSound(color);
 	setTimeout(function(){
 		$("#" + color).removeClass("pressed");
 	}, 100); // .1 second
 }
+
+function playSound (color) {
+	if (color == 'blue'){ blue.play(); }
+	if (color == 'green'){ green.play(); }
+	if (color == 'red'){ red.play(); }
+	if (color == 'yellow'){ yellow.play(); }
+}
+
+
