@@ -1,0 +1,15 @@
+{
+  "name": "expressjs_lesson",
+  "version": "1.0.0",
+  "description": "Web Development Bootcamp Lesson - My Express Server : Creating Our First Server with Express JS",
+  "main": "Server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "Colt Carnes",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
