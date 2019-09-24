@@ -9,7 +9,11 @@ const bodyParser = require("body-parser");
 const app = express();
 const port = 3000;
 
-// Encoding
+// API Endpoints
+const btc_avg = "https://apiv2.bitcoinaverage.com";
+const btc_glb_ticker = "/indices/global/ticker/";
+
+// App Uses
 app.use(bodyParser.urlencoded({extended: true}));
 
 // APIs
@@ -18,13 +22,16 @@ app.get("/", function(req, res) {
 });
 
 app.post("/", function(req, res) {
-	// console.log(req.body.crypto);
+	console.log(req.body);
 
-	request("https://apiv2.bitcoinaverage.com/indices/global/ticker/" 
-			+ req.body.crypto 
-			+ req.body.fiat,
-			function(err, res, body) {
-		console.log(body);
+	var reqUrl = btc_avg + btc_glb_ticker + req.body.crypto + req.body.fiat;
+
+	request(reqUrl, function(error, response, body) {
+		var resBody = JSON.parse(body);
+		res.write("<h1>As of "+ resBody.display_timestamp +"</h1>");
+		res.write("<h2>"+ req.body.crypto +" Weekly Average</h2>");
+		res.write("<h2>"+ resBody.open.week + " per " + req.body.fiat +" currency</h2>");
+		res.send();
 	});
 });
 
