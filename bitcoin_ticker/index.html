@@ -7,6 +7,7 @@
 	<body>
 		<h1>Bitcoin Ticker</h1>
 		<form action="/" method="post">
+			<input type="text" name="amount" placeholder="Quantity of Base Currency">
 			<select name="crypto">
 				<option value="BTC">BitCoin</option>
 				<option value="ETH">Ethereum</option>
@@ -20,8 +21,5 @@
 			</select>
 			<button type="submit">Check Value</button>
 		</form>
-		<div>
-			<p>Your average is : <span id="average"></span></p>			
-		</div>
 	</body>
 </html>

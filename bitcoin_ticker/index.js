@@ -10,8 +10,9 @@ const app = express();
 const port = 3000;
 
 // API Endpoints
-const btc_avg = "https://apiv2.bitcoinaverage.com";
-const btc_glb_ticker = "/indices/global/ticker/";
+const btc_base = "https://apiv2.bitcoinaverage.com/";
+const btc_glb_ticker = "indices/global/ticker/";
+const btc_glb_convert = "convert/global";
 
 // App Uses
 app.use(bodyParser.urlencoded({extended: true}));
@@ -22,15 +23,21 @@ app.get("/", function(req, res) {
 });
 
 app.post("/", function(req, res) {
-	console.log(req.body);
+	// console.log(req.body);
 
-	var reqUrl = btc_avg + btc_glb_ticker + req.body.crypto + req.body.fiat;
+	var reqUrl = btc_base + btc_glb_convert; // + req.body.crypto + req.body.fiat;
 
-	request(reqUrl, function(error, response, body) {
+	var options = {
+		url : reqUrl,
+		method : "GET",
+		qs : { from :  req.body.crypto, to : req.body.fiat, amount : req.body.amount }
+	};
+
+	request(options, function(error, response, body) {
 		var resBody = JSON.parse(body);
-		res.write("<h1>As of "+ resBody.display_timestamp +"</h1>");
-		res.write("<h2>"+ req.body.crypto +" Weekly Average</h2>");
-		res.write("<h2>"+ resBody.open.week + " per " + req.body.fiat +" currency</h2>");
+		res.write("<h1>As of "+ resBody.time +"</h1>");
+		res.write("<h2>"+ req.body.amount + " " + req.body.crypto +
+				  " would convert to "+ resBody.price +" "+ req.body.fiat +"</h2>");
 		res.send();
 	});
 });
