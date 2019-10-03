@@ -9,6 +9,12 @@ const bodyParser = require("body-parser");
 const app = express();
 const port = 3000;
 
+// Mail
+const api_region = "us20";
+const api_base = "https://"+api_region+".api.mailchimp.com/3.0/";
+const mc_key = "ba2ba2511307e0e04011e35af897aac3-"+api_region;
+const mc_listId = "a9e5cc128a";
+
 // App Uses
 app.use(express.static("public")); 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -26,7 +32,39 @@ app.post("/", function (req, res) {
 	var lastName = req.body.lName;
 	var email = req.body.email;
 
-	console.log(firstName + " : First Name - " + lastName + " : Last Name - " + email + " : Email");
+	console.log("{ " + firstName + " : First Name, " + lastName + " : Last Name, " + email + " : Email }");
+
+	var data = {
+		members: [
+			{
+				email_address: email, 
+				status: "subscribed",
+				merge_fields: {
+					FNAME: firstName,
+					LNAME: lastName
+				}
+			}
+		]
+	};
+
+	var jsonData = JSON.stringify(data);
+
+	var options = {
+		method: "POST",
+		url: api_base+"lists/"+mc_listId,
+		headers: {
+			"Authorization": "authKey " + mc_key
+		},
+		body: jsonData
+	};
+
+	request(options, function(err, resp, body){
+		if (err) {
+			console.log(err);
+		} else {
+			console.log(resp.statusCode);
+		}
+	});
 });
 // Something here
 
