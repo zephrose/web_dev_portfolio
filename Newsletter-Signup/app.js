@@ -25,6 +25,9 @@ app.get("/", function (req, res) {
 	res.sendFile(__dirname + "/signup.html");
 });
 
+app.get("/failed", function (req, res) {
+	res.redirect("/");
+});
 
 // POST
 app.post("/", function (req, res) {
@@ -55,21 +58,25 @@ app.post("/", function (req, res) {
 		headers: {
 			"Authorization": "authKey " + mc_key
 		},
-		body: jsonData
+		//body: jsonData
 	};
 
 	request(options, function(err, resp, body){
 		if (err) {
 			console.log(err);
+			res.send("Unsuccessful Request : " + err);
 		} else {
 			console.log(resp.statusCode);
+			if (resp.statusCode === 200) {
+				res.sendFile(__dirname + "/success.html");
+			} else {
+				res.sendFile(__dirname + "/fail.html");
+			}
 		}
 	});
 });
-// Something here
-
 
 // Listening on 
-app.listen(port, function() {
+app.listen(port, function () {
 	console.log("Server Listening on port : " + port);
 });
