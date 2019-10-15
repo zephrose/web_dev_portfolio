@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 
 // App
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 // Mail
 const api_region = "us20";
@@ -58,7 +58,8 @@ app.post("/", function (req, res) {
 		headers: {
 			"Authorization": "authKey " + mc_key
 		},
-		//body: jsonData
+		
+		body: jsonData
 	};
 
 	request(options, function(err, resp, body){
@@ -77,6 +78,6 @@ app.post("/", function (req, res) {
 });
 
 // Listening on 
-app.listen(port, function () {
+app.listen(port || 3000, function () {
 	console.log("Server Listening on port : " + port);
 });
