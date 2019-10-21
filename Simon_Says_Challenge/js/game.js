@@ -1,10 +1,10 @@
 // Battle Messages
-var battle_msg = ["Follow ME!",
+var battleMsg = ["Follow ME!",
 				  "Simon Says...",
 				  "Are we going to Play?",];
 
 // Simon Insults
-var you_lost_msg = ["Take Off The Blindfold!",
+var youLostMsg = ["Take Off The Blindfold!",
 				  	"Simon Didn't Say...",
 				  	"Want To Play Again?",];
 
@@ -18,9 +18,9 @@ var wrong = new Audio("sounds/wrong.mp3");
 // Game object
 var game = {
 	count : 0,
-	button_colors : ["red","blue","green","yellow"],
-	game_pattern : [],
-	user_pattern : [],
+	buttonColors : ["red","blue","green","yellow"],
+	gamePattern : [],
+	playerPattern : [],
 	strict: false,
 }
 
@@ -28,15 +28,12 @@ var game = {
 $("h1").on("click", startGame);
 
 // Button Clicks
-$(".btn").on("click", function (event) {
-	var event_id = event.target.id;
-
-	addToPlayer(event_id);
-
-	//playGame(event_id);
-
-	//checkAnswer(level);
-	//nextSequence();
+$(".btn").on("click", function (event) {	
+	var eventId = event.target.id;
+	
+	if (game.count != 0) {
+		addToPlayer(eventId);
+	}
 });
 
 function startGame () {
@@ -45,11 +42,11 @@ function startGame () {
 
 function clearGame () {
 	// Reset our Game
-	game_pattern = [];
-	level = 0;
+	game.gamePattern = [];
+	game.count = 0;
 
 	// New Battle Msg
-	$("h1").text(battle_msg[Math.floor((Math.random()*3))]);
+	$("h1").text(battleMsg[Math.floor((Math.random()*3))]);
 	$("#sub-text span").text("Click Title To Reset Game");
 
 	// Start the next move
@@ -66,17 +63,17 @@ function nextMove () {
 }
 
 function generateMove () {
-	game.game_pattern.push(game.button_colors[Math.floor((Math.random()*4))]);
+	game.gamePattern.push(game.buttonColors[Math.floor((Math.random()*4))]);
 	showMoves();
-	console.log(game.game_pattern);
+	console.log(game.gamePattern);
 }
 
 function showMoves() {
 	var i = 0;
 	var moves = setInterval(function () {
-		playGame(game.game_pattern[i]);
+		playGame(game.gamePattern[i]);
 		i++;
-		if (i >= game.game_pattern.length) {
+		if (i >= game.gamePattern.length) {
 			clearInterval(moves);
 		}
 	}, 600);
@@ -85,18 +82,18 @@ function showMoves() {
 }
 
 function clearPlayer () {
-	game.user_pattern = [];
+	game.playerPattern = [];
 }
 
 function addToPlayer (color) {
-	game.user_pattern.push(color);
-	console.log(game.user_pattern);
-	playTurn(color);
+	game.playerPattern.push(color);
+	console.log(game.playerPattern);
+	playerTurn(color);
 }
 
-function playTurn (currentLevel) {
-	if (game.user_pattern[game.user_pattern.length - 1] !== 
-		game.game_pattern[game.game_pattern.length - 1]) {
+function playerTurn (currentLevel) {
+	if (game.playerPattern[game.playerPattern.length - 1] !== 
+		game.gamePattern[game.playerPattern.length - 1]) {
 		if (game.strict) {
 			gameOver();
 		} else {
@@ -104,7 +101,8 @@ function playTurn (currentLevel) {
 		}
 	} else {
 		playGame(currentLevel);
-		var check = game.user_pattern.length === game.game_pattern.length;
+		var check = game.playerPattern.length === game.gamePattern.length;
+		console.log(check);
 		if (check) {
 			nextMove();
 		}
@@ -113,7 +111,7 @@ function playTurn (currentLevel) {
 
 function gameOver () {
 	wrong.play();
-	$("h1").text(you_lost_msg[Math.floor((Math.random()*3))]);
+	$("h1").text(youLostMsg[Math.floor((Math.random()*3))]);
 	$("#sub-text span").text("Click Title To Start Game");
 
 	$("body").addClass("game-over");
@@ -121,18 +119,16 @@ function gameOver () {
 	setTimeout(function(){
 		$("body").removeClass("game-over");
 	}, 100); // .1 second
-
-	startGame();
 }
 
 function tryAgain () {
 	wrong.play();
-	$("h1").text(you_lost_msg[Math.floor((Math.random()*3))]);
+	$("h1").text(youLostMsg[Math.floor((Math.random()*3))]);
 
 	showMoves();
 
 	setTimeout(function() {
-		$("h1").text(battle_msg[Math.floor((Math.random()*3))]);
+		$("h1").text(battleMsg[Math.floor((Math.random()*3))]);
 	}, 1000); 
 }
 
