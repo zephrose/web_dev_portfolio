@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8">
+	<title>TO DO List</title>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
+	<div class="box" id="heading">
+		<h1><%= weekday %></h1>
+	</div>
+	
+	<div class="box">			
+		<% todoItems.forEach(function(item) { %>
+		<div class="item">
+			<input type="checkbox">
+			<p><%= item %></p>
+		</div>
+		<% }); %>
+
+		<form class="item" action="/" method="post">
+			<input type="text" name="todoItem" placeholder="What To Do . . .">
+			<button type="submit">+</button>
+		</form>		
+	</div>	
+
+	
+</body>
+</html>
