@@ -9,8 +9,8 @@
 <div>
 	<div class="posts">
 	<% posts.forEach(function(post) { %>	
-		<a href="/posts/<%= post.title %>"><h3 class="title"><%= post.title %></h3></a>
-		<p class="post text-truncate-overflow" ><%= post.body %></p>
+		<a href="/post/<%= post._id %>"><h3 class="title"><%= post.title %></h3></a>
+		<p class="post text-truncate-overflow" ><%= post.post %></p>
 	<% }); %>
 	</div>		
 </div>
