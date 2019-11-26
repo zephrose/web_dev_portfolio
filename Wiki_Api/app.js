@@ -32,9 +32,39 @@ const articleSchema = new mongoose.Schema({
 // Model
 const Article = mongoose.model("Article", articleSchema);
 
+// ROUTES
+app.get("/articles", function(req, res) {
+	Article.find(function(err, foundArticles) {
+		if (!err) {
+			console.log(foundArticles);
+			res.send(foundArticles);
+		} else {
+			console.log(err);
+			res.send(err);
+		}
+	});
+});
 
-
-
+app.post("/articles", function(req, res) {
+	if (req.body.title != "") {
+		const newArticle = new Article({
+			title: req.body.title,
+			content: req.body.content
+		});
+		newArticle.save(function(err){
+			if (!err) {
+				console.log("Save Successful");
+				res.redirect("/articles");
+			} else {
+				console.log("Save unsuccessful : ")
+				console.log(err);
+			}
+		});	
+	} else {
+		console.log("No title in body. Review contents of body and try again.");
+		res.status(400).send("No title in body. Review contents of body and try again.")
+	}	
+});
 
 app.listen(port, function() {
   console.log("Server started on port " + port);
