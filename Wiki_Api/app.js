@@ -54,15 +54,15 @@ app.post("/articles", function(req, res) {
 		newArticle.save(function(err){
 			if (!err) {
 				console.log("Save Successful");
-				res.redirect("/articles");
+				res.status(200).send("Save Successful");
 			} else {
 				console.log("Save unsuccessful : ")
-				console.log(err);
+				res.status(500).send("Error attempting to Save Content : " + err);
 			}
 		});	
 	} else {
 		console.log("No title in body. Review contents of body and try again.");
-		res.status(400).send("No title in body. Review contents of body and try again.")
+		res.status(400).send("No title in body. Review contents of body and try again.");
 	}	
 });
 
