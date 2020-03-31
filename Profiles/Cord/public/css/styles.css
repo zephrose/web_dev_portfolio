@@ -1,5 +1,5 @@
 body {
-	font-family: 'Permanent Marker', cursive;
+	font-family: 'Noto Sans JP', sans-serif;
 	text-align: center;
 }
 
@@ -10,32 +10,36 @@ h1, h2, h3, h4, h5, h6 {
 
 
 .top-header, .navigation, .feature, .footer, .jumbotron {
-	background: #636363;
-	color: #fff;
+	background: #F7F9F9;
+	color: #273746;
 }
 
 .jumbotron {	
-	padding-top: 2rem;
-	padding-bottom: 0;
+	padding: 0 0 4rem;
 	margin: 0;
 }
 
 .container-fluid {
-	padding-bottom: 1%;
 }
 
 /*Nav Bar*/
 .nav {
-	padding: 0 0 1.5rem;
+	padding: 3rem 0 7rem;
 }
 
 .nav-item {
-	padding: 18px 18px;
 }
 
 .nav-link {
 	font-size: 1.2rem;
-	color: rgba(255,255,255,.5);
+	color: #273746;
+}
+
+.cover-img {
+	max-width: 25%;
+	height: auto;
+  	object-fit: cover;
+  	border-radius: 50%;	
 }
 
 /*@media (max-width: 990px) {
